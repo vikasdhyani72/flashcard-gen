@@ -18,7 +18,7 @@ import {
 } from 'react-share'
 
 const ShareModal = ({ isOpen, closeModal }) => {
-  const INPUT_LINK = `http://www.almabetter.com/asdfjasfdlj`
+  const INPUT_LINK = `http://www.almabetter.com/abc`
   const [isCopied, setIsCopied] = useState(false)
 
   // this useEffect is to set the status to default, after copying the Link
@@ -55,7 +55,7 @@ const ShareModal = ({ isOpen, closeModal }) => {
             <p className="flex items-center flex-1 border-2 p-2 text-xs text-slate-500 border-slate-300 rounded-md border-dashed">
               Link:
               <span className="mx-2 font-semibold text-xs overflow-x-hidden text-black">
-                http://www.almabetter.com/asdfjasfdlj
+                http://www.almabetter.com/abc
               </span>
             </p>
             <CopyToClipboard text={INPUT_LINK} onCopy={() => setIsCopied(true)}>
