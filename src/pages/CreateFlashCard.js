@@ -44,8 +44,9 @@ const CreateFlashCard = () => {
           <Form className="w-full space-y-5 text-slate-500 font-medium">
             {/* Group Information Section */}
             <div className="flex flex-col space-y-4 bg-white drop-shadow-lg rounded-md p-5">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-10">
-                <div className="flex flex-col relative w-full sm:w-auto">
+              <div className="flex flex-col sm:w-full sm:space-y-4">
+                {/* Group Name Section */}
+                <div className="flex flex-col">
                   <h2 className="mb-2">Create Group</h2>
                   <Field
                     type="text"
@@ -61,37 +62,41 @@ const CreateFlashCard = () => {
                     name="groupname"
                   />
                 </div>
-                {groupImg ? (
-                  <img
-                    src={groupImg}
-                    alt="groupImg"
-                    className="w-28 h-28 object-contain mt-4 sm:mt-0"
-                  />
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => filePickerRef.current.click()}
-                    className="flex items-center justify-center px-4 py-2 bg-white border-2 border-slate-300 active:border-blue-600 text-blue-700 font-semibold rounded-md mt-4 sm:mt-0"
-                  >
-                    <UploadOutlined />
-                    <span className="ml-2">Upload Image</span>
-                    <input
-                      type="file"
-                      ref={filePickerRef}
-                      onChange={(e) => {
-                        const file = e.target.files[0]
-                        const reader = new FileReader()
-                        reader.readAsDataURL(file)
 
-                        reader.onload = () => {
-                          setFieldValue('groupimg', reader.result)
-                          setGroupImg(reader.result)
-                        }
-                      }}
-                      hidden
+                {/* Upload Image Section */}
+                <div className="flex flex-col sm:w-full">
+                  {groupImg ? (
+                    <img
+                      src={groupImg}
+                      alt="groupImg"
+                      className="w-28 h-28 object-contain mt-4 mx-auto"
                     />
-                  </button>
-                )}
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => filePickerRef.current.click()}
+                      className="flex items-center justify-center px-4 py-2 bg-white border-2 border-slate-300 active:border-blue-600 text-blue-700 font-semibold rounded-sm w-full mt-4 mx-auto"
+                    >
+                      <UploadOutlined />
+                      <span className="ml-4">Upload Image</span>
+                      <input
+                        type="file"
+                        ref={filePickerRef}
+                        onChange={(e) => {
+                          const file = e.target.files[0]
+                          const reader = new FileReader()
+                          reader.readAsDataURL(file)
+
+                          reader.onload = () => {
+                            setFieldValue('groupimg', reader.result)
+                            setGroupImg(reader.result)
+                          }
+                        }}
+                        hidden
+                      />
+                    </button>
+                  )}
+                </div>
               </div>
 
               <div className="flex flex-col w-full">
