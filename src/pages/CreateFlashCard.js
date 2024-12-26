@@ -1,11 +1,9 @@
 import React, { useState, useRef } from 'react'
 import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik'
 import FlashCardSchema from '../components/validation/schema/CardSchema'
-
 import { nanoid } from 'nanoid'
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons'
 import { PencilAltIcon, TrashIcon } from '@heroicons/react/outline'
-
 import { useDispatch } from 'react-redux'
 import { setFlashCard } from '../features/flashcard/flashCardSlice'
 
@@ -15,6 +13,7 @@ const CreateFlashCard = () => {
   const editRef = useRef(null)
   const [groupImg, setGroupImg] = useState('')
 
+  // Function to handle adding a new flashcard group
   const addFlashCard = (values, actions) => {
     dispatch(setFlashCard(values))
     actions.resetForm()
@@ -22,196 +21,190 @@ const CreateFlashCard = () => {
   }
 
   return (
-    <Formik
-      initialValues={{
-        groupid: nanoid(),
-        groupname: '',
-        groupdescription: '',
-        groupimg: null,
-        cards: [
-          {
-            cardid: nanoid(),
-            cardname: '',
-            carddescription: '',
-          },
-        ],
-        createOn: new Date(Date.now()).toLocaleString(),
-      }}
-      validationSchema={FlashCardSchema}
-      onSubmit={addFlashCard}
-    >
-      {({ values, isSubmitting, setFieldValue }) => (
-        <Form className="w-full space-y-5 text-slate-500 font-medium">
-          <div className="flex flex-col px-10 py-4 bg-white drop-shadow-lg space-y-4 rounded-md">
-            <div className="flex flex-col sm:flex-row items-center space-x-10 pt-3">
-              <div className="flex flex-col relative">
-                <h2>Create Group</h2>
+    <div className="container mx-auto px-4">
+      <Formik
+        initialValues={{
+          groupid: nanoid(),
+          groupname: '',
+          groupdescription: '',
+          groupimg: null,
+          cards: [
+            {
+              cardid: nanoid(),
+              cardname: '',
+              carddescription: '',
+            },
+          ],
+          createOn: new Date(Date.now()).toLocaleString(),
+        }}
+        validationSchema={FlashCardSchema}
+        onSubmit={addFlashCard}
+      >
+        {({ values, isSubmitting, setFieldValue }) => (
+          <Form className="w-full space-y-5 text-slate-500 font-medium">
+            {/* Group Information Section */}
+            <div className="flex flex-col space-y-4 bg-white drop-shadow-lg rounded-md p-5">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-10">
+                <div className="flex flex-col relative w-full sm:w-auto">
+                  <h2 className="mb-2">Create Group</h2>
+                  <Field
+                    type="text"
+                    name="groupname"
+                    className="border-slate-300 w-full border-2 rounded-sm focus:ring-slate-400 focus:border focus:border-slate-400"
+                  />
+                  <span className="absolute right-2 top-2 text-lg font-medium">
+                    *
+                  </span>
+                  <ErrorMessage
+                    component={'div'}
+                    className="text-sm text-red-500"
+                    name="groupname"
+                  />
+                </div>
+                {groupImg ? (
+                  <img
+                    src={groupImg}
+                    alt="groupImg"
+                    className="w-28 h-28 object-contain mt-4 sm:mt-0"
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => filePickerRef.current.click()}
+                    className="flex items-center justify-center px-4 py-2 bg-white border-2 border-slate-300 active:border-blue-600 text-blue-700 font-semibold rounded-md mt-4 sm:mt-0"
+                  >
+                    <UploadOutlined />
+                    <span className="ml-2">Upload Image</span>
+                    <input
+                      type="file"
+                      ref={filePickerRef}
+                      onChange={(e) => {
+                        const file = e.target.files[0]
+                        const reader = new FileReader()
+                        reader.readAsDataURL(file)
+
+                        reader.onload = () => {
+                          setFieldValue('groupimg', reader.result)
+                          setGroupImg(reader.result)
+                        }
+                      }}
+                      hidden
+                    />
+                  </button>
+                )}
+              </div>
+
+              <div className="flex flex-col w-full">
+                <h2 className="mb-2">Add Description</h2>
                 <Field
-                  type="text"
-                  name="groupname"
-                  className="border-slate-300 md:w-96 border-2 rounded-sm focus:ring-slate-400 focus:border focus:border-slate-400"
+                  as="textarea"
+                  name="groupdescription"
+                  rows={3}
+                  placeholder="Describe the roles, responsibilities, skills required for the job and help candidate understand the role better"
+                  className="resize-none border-slate-300 w-full border-2 rounded-sm placeholder:opacity-40 focus:ring-slate-400 focus:border focus:border-slate-400"
                 />
-                <span className="absolute left-[7rem] text-lg font-medium">
-                  *
-                </span>
                 <ErrorMessage
                   component={'div'}
                   className="text-sm text-red-500"
-                  name="groupname"
+                  name="groupdescription"
                 />
               </div>
-
-              {groupImg ? (
-                <img
-                  src={groupImg}
-                  alt="groupImg"
-                  className="w-28 h-28 object-contain"
-                />
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => filePickerRef.current.click()}
-                  className={`flex items-center px-5 py-2 mt-6 bg-white border-2 border-slate-300 active:border-blue-600 text-blue-700 font-semibold rounded-md space-x-2`}
-                >
-                  <UploadOutlined />
-                  <span>Upload Image</span>
-                  <input
-                    type="file"
-                    ref={filePickerRef}
-                    value={groupImg}
-                    onChange={(e) => {
-                      const file = e.target.files[0]
-                      const reader = new FileReader()
-                      reader.readAsDataURL(file)
-
-                      reader.onload = () => {
-                        setFieldValue('groupimg', reader.result)
-                        setGroupImg(reader.result)
-                      }
-                    }}
-                    hidden
-                  />
-                </button>
-              )}
             </div>
 
-            <div className="flex flex-col w-full sm:w-[70%]">
-              <h2 className="mb-2">Add Description</h2>
-              <Field
-                as="textarea"
-                name="groupdescription"
-                rows={3}
-                placeholder="Describe the roles, responsibilities, skills required for the job and help candidate understand the role better"
-                className="resize-none border-slate-300 border-2 rounded-sm placeholder:opacity-40 focus:ring-slate-400 focus:border focus:border-slate-400"
-              />
-              <ErrorMessage
-                component={'div'}
-                className="text-sm text-red-500"
-                name="groupdescription"
-              />
-            </div>
-          </div>
-
-          <div className="text-black drop-shadow-lg rounded-lg">
-            <FieldArray name="cards">
-              {(arrayHelper) => {
-                const cards = values.cards
-                return (
-                  <>
-                    {cards && cards.length > 0
-                      ? cards.map((card, index) => (
-                          <div
-                            className="flex items-center space-x-10 bg-white px-5 lg:px-10 py-4"
-                            key={index}
-                          >
-                            <div className="p-2 w-10 h-10 flex items-center justify-center bg-red-600 text-white text-md font-semibold rounded-full">
-                              {index + 1}
-                            </div>
-                            <div className="flex flex-col space-y-3 md:space-x-10 md:flex-row">
-                              <div className="relative flex flex-col justify-center space-y-3">
-                                <h2 className="">Enter Term</h2>
-                                <Field
-                                  type="text"
-                                  name={`cards.${index}.cardname`}
-                                  innerRef={editRef}
-                                />
-                                <span className="absolute left-[5.8rem] -top-[15px] md:top-0 text-lg font-medium">
-                                  *
-                                </span>
-                                <ErrorMessage
-                                  component={'div'}
-                                  className="text-sm text-red-500"
-                                  name={`cards.${index}.cardname`}
-                                />
+            {/* Cards Section */}
+            <div className="text-black drop-shadow-lg rounded-lg">
+              <FieldArray name="cards">
+                {(arrayHelper) => {
+                  const cards = values.cards
+                  return (
+                    <div className="space-y-4">
+                      {cards && cards.length > 0
+                        ? cards.map((card, index) => (
+                            <div
+                              className="flex flex-col space-y-4 bg-white px-4 py-4 sm:flex-row sm:items-center sm:space-x-6"
+                              key={index}
+                            >
+                              <div className="p-2 w-10 h-10 flex items-center justify-center bg-red-600 text-white text-md font-semibold rounded-full">
+                                {index + 1}
                               </div>
-                              <div className="relative flex flex-col justify-center space-y-3">
-                                <h2 className="">Enter Definition</h2>
-                                <Field
-                                  as="textarea"
-                                  name={`cards.${index}.carddescription`}
-                                  className="resize-none lg:w-72"
-                                />
-                                <span className="absolute left-[8.5rem] -top-[1rem] text-lg font-medium">
-                                  *
-                                </span>
-                                <ErrorMessage
-                                  component={'div'}
-                                  className="text-sm text-red-500"
-                                  name={`cards.${index}.carddescription`}
-                                />
-                              </div>
-
-                              <div className="flex items-center space-x-2">
-                                <div className="flex items-center justify-around w-full md:flex-col md:space-y-5 md:mt-5">
-                                  <button
-                                    type="button"
-                                    onClick={() => arrayHelper.remove(index)}
-                                  >
-                                    <TrashIcon className="h-6 text-slate-500" />
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={() => editRef.current.focus()}
-                                  >
-                                    <PencilAltIcon className="h-6 text-blue-600" />
-                                  </button>
+                              <div className="flex flex-col w-full space-y-3">
+                                <div className="relative">
+                                  <h2 className="mb-2">Enter Term</h2>
+                                  <Field
+                                    type="text"
+                                    name={`cards.${index}.cardname`}
+                                    className="border-slate-300 w-full border-2 rounded-sm focus:ring-slate-400 focus:border focus:border-slate-400"
+                                    innerRef={editRef}
+                                  />
+                                  <ErrorMessage
+                                    component={'div'}
+                                    className="text-sm text-red-500"
+                                    name={`cards.${index}.cardname`}
+                                  />
+                                </div>
+                                <div className="relative">
+                                  <h2 className="mb-2">Enter Definition</h2>
+                                  <Field
+                                    as="textarea"
+                                    name={`cards.${index}.carddescription`}
+                                    className="resize-none border-slate-300 w-full border-2 rounded-sm placeholder:opacity-40 focus:ring-slate-400 focus:border focus:border-slate-400"
+                                  />
+                                  <ErrorMessage
+                                    component={'div'}
+                                    className="text-sm text-red-500"
+                                    name={`cards.${index}.carddescription`}
+                                  />
                                 </div>
                               </div>
+                              <div className="flex justify-end space-x-2">
+                                <button
+                                  type="button"
+                                  onClick={() => arrayHelper.remove(index)}
+                                >
+                                  <TrashIcon className="h-6 text-slate-500" />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => editRef.current.focus()}
+                                >
+                                  <PencilAltIcon className="h-6 text-blue-600" />
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        ))
-                      : null}
-                    <button
-                      type="button"
-                      onClick={() =>
-                        arrayHelper.push({
-                          cardid: nanoid(),
-                          cardname: '',
-                          carddescription: '',
-                        })
-                      }
-                      className="flex items-center space-x-2 text-blue-600 font-medium text-sm bg-white w-full mb-5 px-5 py-2"
-                    >
-                      <PlusOutlined />
-                      <span>Add More</span>
-                    </button>
-                    <div className="flex justify-center w-full">
+                          ))
+                        : null}
                       <button
-                        disabled={isSubmitting}
-                        type="submit"
-                        className="py-2 px-6  bg-red-600 text-white rounded-md"
+                        type="button"
+                        onClick={() =>
+                          arrayHelper.push({
+                            cardid: nanoid(),
+                            cardname: '',
+                            carddescription: '',
+                          })
+                        }
+                        className="flex items-center space-x-2 text-blue-600 font-medium text-sm bg-white w-full px-5 py-2 rounded-md"
                       >
-                        Create
+                        <PlusOutlined />
+                        <span>Add More</span>
                       </button>
+                      <div className="flex justify-center w-full">
+                        <button
+                          disabled={isSubmitting}
+                          type="submit"
+                          className="py-2 px-6 bg-red-600 text-white rounded-md"
+                        >
+                          Create
+                        </button>
+                      </div>
                     </div>
-                  </>
-                )
-              }}
-            </FieldArray>
-          </div>
-        </Form>
-      )}
-    </Formik>
+                  )
+                }}
+              </FieldArray>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    </div>
   )
 }
 
