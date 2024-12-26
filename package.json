@@ -2,7 +2,7 @@
   "name": "flashcard-generator",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://vikasdhyani72.github.io/flashcard-generator",
+  "homepage": "https://vikasdhyani72.github.io/flashcard-gen/",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@heroicons/react": "^1.0.6",
