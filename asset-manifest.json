@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/flashcard-gen/static/css/main.bb5b97a9.css",
-    "main.js": "/flashcard-gen/static/js/main.6d22f4ad.js",
+    "main.css": "/flashcard-gen/static/css/main.14270c4d.css",
+    "main.js": "/flashcard-gen/static/js/main.14d4df10.js",
     "static/js/453.dc639f5f.chunk.js": "/flashcard-gen/static/js/453.dc639f5f.chunk.js",
     "static/media/hands-tab.jpg": "/flashcard-gen/static/media/hands-tab.f081130cd5f4212f3b6a.jpg",
     "static/media/whatsapp-icon.svg": "/flashcard-gen/static/media/whatsapp-icon.4b2d9a2b96bcc510de7e42c4c607c1b8.svg",
@@ -10,12 +10,12 @@
     "static/media/linkedin-icon.svg": "/flashcard-gen/static/media/linkedin-icon.7cee089830681b17c13981a1f0be79a7.svg",
     "static/media/facebook-icon.svg": "/flashcard-gen/static/media/facebook-icon.27cdc27acd49f385f3b6ea70c5511fde.svg",
     "index.html": "/flashcard-gen/index.html",
-    "main.bb5b97a9.css.map": "/flashcard-gen/static/css/main.bb5b97a9.css.map",
-    "main.6d22f4ad.js.map": "/flashcard-gen/static/js/main.6d22f4ad.js.map",
+    "main.14270c4d.css.map": "/flashcard-gen/static/css/main.14270c4d.css.map",
+    "main.14d4df10.js.map": "/flashcard-gen/static/js/main.14d4df10.js.map",
     "453.dc639f5f.chunk.js.map": "/flashcard-gen/static/js/453.dc639f5f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.bb5b97a9.css",
-    "static/js/main.6d22f4ad.js"
+    "static/css/main.14270c4d.css",
+    "static/js/main.14d4df10.js"
   ]
 }
